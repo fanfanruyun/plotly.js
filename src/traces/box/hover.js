@@ -148,7 +148,7 @@ module.exports = function hoverPoints(pointData, xval, yval, hovermode) {
         for(i = 0; i < cd.length; i++) {
             di = cd[i];
 
-            for(j = 0; j < di.pts.length; j++) {
+            for(j = 0; j < (di.pts || []).length; j++) {
                 var pt = di.pts[j];
 
                 var newDistance = distfn(pt);

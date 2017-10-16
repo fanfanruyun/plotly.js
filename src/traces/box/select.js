@@ -17,36 +17,33 @@ module.exports = function selectPoints(searchInfo, polygon) {
     var trace = cd[0].trace;
     var node3 = cd[0].node3;
     var selection = [];
-
-    var i, j, pts;
+    var i, j;
 
     if(trace.visible !== true) return [];
 
     if(polygon === false) {
         // clear selection
-        for(j = 0; j < cd.length; j++) {
-            pts = cd[j].pts;
-            for(i = 0; i < pts.length; i++) {
-                pts[i].dim = 0;
+        for(i = 0; i < cd.length; i++) {
+            for(j = 0; j < (cd[i].pts || []).length; j++) {
+                cd[i][j].dim = 0;
             }
         }
     } else {
-        for(j = 0; j < cd.length; j++) {
-            pts = cd[j].pts;
-            for(i = 0; i < pts.length; i++) {
-                var di = pts[i];
-                var x = xa.c2p(di.x);
-                var y = ya.c2p(di.y);
+        for(i = 0; i < cd.length; i++) {
+            for(j = 0; j < (cd[i].pts || []).length; j++) {
+                var pt = cd[i][j];
+                var x = xa.c2p(pt.x);
+                var y = ya.c2p(pt.y);
 
                 if(polygon.contains([x, y])) {
                     selection.push({
-                        pointNumber: di.i,
-                        x: di.x,
-                        y: di.y
+                        pointNumber: pt.i,
+                        x: pt.x,
+                        y: pt.y
                     });
-                    di.dim = 0;
+                    pt.dim = 0;
                 } else {
-                    di.dim = 1;
+                    pt.dim = 1;
                 }
             }
         }
